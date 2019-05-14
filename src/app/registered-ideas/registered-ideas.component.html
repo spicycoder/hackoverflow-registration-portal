@@ -1,0 +1,21 @@
+<p-table [value]="ideas">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Team name</th>
+            <th>Member 1</th>
+            <th>Member 2</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-idea>
+        <tr>
+            <td>{{idea.teamName}}</td>
+            <td>{{idea.member1}}</td>
+            <td>{{idea.member2}}</td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div [innerHtml]="idea.description"></div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

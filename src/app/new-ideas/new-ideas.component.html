@@ -1,0 +1,5 @@
+<input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName">
+<input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1">
+<input type="text" pInputText placeholder="Member 2" [(ngModel)]="member2">
+<p-editor  [(ngModel)]="description" [style]="{'height':'320px'}"></p-editor>
+<p-button label="Save" (onClick)="save($event)"></p-button>

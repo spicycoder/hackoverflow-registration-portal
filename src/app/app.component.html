@@ -1,0 +1,39 @@
+<h1 style="text-align: center; color: #1BA1E2">EOL Hackathon - 2019</h1>
+
+<br />
+
+<p-card header="New Idea">
+    <input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName">
+    <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1">
+    <input type="text" pInputText placeholder="Member 2" [(ngModel)]="member2">
+    <p-editor [(ngModel)]="description" [style]="{'height':'240px'}"></p-editor>
+    <p-button label="Save" (onClick)="save($event)"></p-button>
+</p-card>
+
+<br />
+
+<p-card header="Registered Ideas">
+    <p-table [value]="ideas">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Team name</th>
+                <th>Member 1</th>
+                <th>Member 2</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-idea>
+            <tr>
+                <td>{{idea.teamName}}</td>
+                <td>{{idea.member1}}</td>
+                <td>{{idea.member2}}</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div [innerHtml]="idea.description"></div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<router-outlet></router-outlet>
