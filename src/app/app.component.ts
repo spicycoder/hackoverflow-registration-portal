@@ -7,7 +7,7 @@ import { Client, Idea } from './services/hackoverflow.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'hack-overflow';
+  title = 'Hackathon - 2019';
 
   teamName: string;
   description: string;
@@ -17,13 +17,13 @@ export class AppComponent implements OnInit {
   ideas: Idea[];
 
   constructor(private client: Client) { }
-  
+
   ngOnInit() {
     this.refreshData();
   }
 
-  save(args) {
-    var idea = Idea.fromJS({
+  save() {
+    const idea = Idea.fromJS({
       teamName: this.teamName,
       member1: this.member1,
       member2: this.member2,
@@ -31,13 +31,20 @@ export class AppComponent implements OnInit {
     });
 
     this.client.createIdea(idea).subscribe(() => {
-      this.teamName = "";
-      this.member1 = "";
-      this.member2 = "";
-      this.description = "";
+      this.teamName = '';
+      this.member1 = '';
+      this.member2 = '';
+      this.description = '';
 
       this.refreshData();
     });
+  }
+
+  reset() {
+    this.teamName = '';
+    this.member1 = '';
+    this.member2 = '';
+    this.description = '';
   }
 
   refreshData() {

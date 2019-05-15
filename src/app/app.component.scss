@@ -1,0 +1,42 @@
+.eol-page-header {
+  padding: 16px 24px;
+  background: #0072bc;
+  color: #ffffff;
+  width: 100%;
+  display: block;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+
+  @media print {
+    display: none;
+  }
+
+  .page-header-left {
+    font-size: 20px;
+
+    .page-icon {
+      margin-right: 16px;
+      font-size: 28px;
+    }
+  }
+
+  .page-header-right {
+    float: right;
+    padding-top: 8px;
+
+    .header-btn.ui-button-text-icon-left {
+      height: 28px;
+      font-size: 12px;
+      padding: 5px 0.5rem 5px 1.6rem;
+      ::ng-deep .ui-button-icon-left {
+        font-size: 12px;
+      }
+
+      ::ng-deep .ui-button-text{
+        font-size: 12px;
+      }
+    }
+  }
+}

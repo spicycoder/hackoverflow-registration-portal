@@ -7,9 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { Client, API_BASE_URL } from "./services/hackoverflow.service";
-
-import { RegisteredIdeasComponent } from './registered-ideas/registered-ideas.component';
-import { NewIdeasComponent } from './new-ideas/new-ideas.component';
 import { environment } from 'src/environments/environment';
 
 import { TabViewModule } from "primeng/tabview";
@@ -21,9 +18,7 @@ import { ButtonModule } from "primeng/button";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    RegisteredIdeasComponent,
-    NewIdeasComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

@@ -1,13 +1,23 @@
-<h1 style="text-align: center; color: #1BA1E2">EOL Hackathon - 2019</h1>
+<div class="eol-page-header">
+  <span class="page-header-left flex-inline-body">
+    <img class="header_logo" height="34" runat="server" src="../assets/eurofins-logo-primary.png"
+      alt="Eurofins logo">
+  </span>
+  <span class="page-header-right">
+    <span style="font-size: 20px">{{title}}</span>
+  </span>
+</div>
+<!-- <h1 style="text-align: center; color: #1BA1E2">EOL Hackathon - 2019</h1> -->
 
 <br />
-
+<div style="margin-top: 50px">
 <p-card header="New Idea">
-    <input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName">
-    <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1">
-    <input type="text" pInputText placeholder="Member 2" [(ngModel)]="member2">
+    <input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName" style="margin: 4px 4px 12px 0px;">
+    <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1" style="margin: 4px 4px 4px 0px;">
+    <input type="text" pInputText placeholder="Member 2" [(ngModel)]="member2" style="margin: 4px 4px 4px 0px;">
     <p-editor [(ngModel)]="description" [style]="{'height':'240px'}"></p-editor>
-    <p-button label="Save" (onClick)="save($event)"></p-button>
+    <p-button label="Save" (onClick)="save()" style="margin: 4px 4px 4px 0px;"></p-button>
+    <p-button label="Reset" class="ui-button-danger" (onClick)="reset()" style="margin: 4px 4px 4px 0px;"></p-button>
 </p-card>
 
 <br />
@@ -35,5 +45,5 @@
         </ng-template>
     </p-table>
 </p-card>
-
+</div>
 <router-outlet></router-outlet>
