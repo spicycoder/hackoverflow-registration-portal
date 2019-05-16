@@ -5,8 +5,8 @@
   width: 100%;
   display: block;
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   z-index: 100;
 
   @media print {
@@ -24,10 +24,8 @@
 
   .page-header-right {
     float: right;
-    padding-top: 8px;
-
+    
     .header-btn.ui-button-text-icon-left {
-      height: 28px;
       font-size: 12px;
       padding: 5px 0.5rem 5px 1.6rem;
       ::ng-deep .ui-button-icon-left {

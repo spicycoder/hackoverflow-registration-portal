@@ -1,16 +1,16 @@
 <div class="eol-page-header">
     <span class="page-header-left flex-inline-body">
-        <img class="header_logo" height="34" runat="server" src="../assets/eurofins-logo-primary.png"
+        <img class="header_logo" runat="server" src="../assets/eurofins-logo-primary.png"
             alt="Eurofins logo">
     </span>
     <span class="page-header-right">
-        <span style="font-size: 20px">{{title}}</span>
+        <h2>{{title}}</h2>
     </span>
 </div>
 
-<div style="margin: 50px 0">
+<div style="margin: 75px 0">
 
-    <p-dialog closeOnEscape="true" header="New idea" [(visible)]="display" (onHide)="onHide()">
+    <p-dialog closeOnEscape="true" header="New idea" [(visible)]="display" (onHide)="onHide()" resizable="true" modal="true">
         <input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName" style="margin: 4px 4px 12px 0px;"
             pTooltip="Team name">
         <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1" style="margin: 4px 4px 4px 0px;"
