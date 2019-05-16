@@ -13,9 +13,19 @@ export class AppComponent implements OnInit {
   description: string;
   member1: string;
   member2: string;
-
+  id: string;
   ideas: Idea[];
+  isUpdate = false;
+  idea: Idea;
 
+  get enableButton() {
+    let flag = false;
+    if ((this.teamName && this.teamName.trim() !== '') &&
+      (this.member1 && this.member1.trim() !== '')) {
+      flag = true;
+    }
+    return flag;
+  }
   constructor(private client: Client) { }
 
   ngOnInit() {
@@ -40,11 +50,40 @@ export class AppComponent implements OnInit {
     });
   }
 
+  updateDetails(idea: Idea) {
+    this.id = idea.id;
+    this.teamName = idea.teamName;
+    this.member1 = idea.member1;
+    this.member2 = idea.member2;
+    this.description = idea.description;
+    this.isUpdate = true;
+  }
+
+  update() {
+    const idea = Idea.fromJS({
+      id: this.id,
+      teamName: this.teamName,
+      member1: this.member1,
+      member2: this.member2,
+      description: this.description
+    });
+
+    this.client.updateIdea(idea).subscribe(() => {
+      this.teamName = '';
+      this.member1 = '';
+      this.member2 = '';
+      this.description = '';
+      this.isUpdate = false;
+      this.refreshData();
+    });
+  }
+
   reset() {
     this.teamName = '';
     this.member1 = '';
     this.member2 = '';
     this.description = '';
+    this.isUpdate = false;
   }
 
   refreshData() {

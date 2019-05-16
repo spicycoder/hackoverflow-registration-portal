@@ -7,7 +7,6 @@
     <span style="font-size: 20px">{{title}}</span>
   </span>
 </div>
-<!-- <h1 style="text-align: center; color: #1BA1E2">EOL Hackathon - 2019</h1> -->
 
 <br />
 <div style="margin-top: 50px">
@@ -16,7 +15,8 @@
     <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1" style="margin: 4px 4px 4px 0px;">
     <input type="text" pInputText placeholder="Member 2" [(ngModel)]="member2" style="margin: 4px 4px 4px 0px;">
     <p-editor [(ngModel)]="description" [style]="{'height':'240px'}"></p-editor>
-    <p-button label="Save" (onClick)="save()" style="margin: 4px 4px 4px 0px;"></p-button>
+    <p-button *ngIf="!isUpdate" label="Save" [disabled]="!enableButton" (onClick)="save()" style="margin: 4px 4px 4px 0px;"></p-button>
+    <p-button *ngIf="isUpdate" label="Update" [disabled]="!enableButton" (onClick)="update()" style="margin: 4px 4px 4px 0px;"></p-button>
     <p-button label="Reset" class="ui-button-danger" (onClick)="reset()" style="margin: 4px 4px 4px 0px;"></p-button>
 </p-card>
 
@@ -32,12 +32,12 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-idea>
-            <tr>
-                <td>{{idea.teamName}}</td>
+            <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                <td><span style="cursor: pointer; color:blue;" (click)="updateDetails(idea);" title="Click to update">{{idea.teamName}}</span></td>
                 <td>{{idea.member1}}</td>
                 <td>{{idea.member2}}</td>
             </tr>
-            <tr>
+            <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
                 <td colspan="3">
                     <div [innerHtml]="idea.description"></div>
                 </td>
