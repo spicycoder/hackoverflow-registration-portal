@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule } from "@angular/forms";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,8 @@ import { CardModule } from "primeng/card";
 import { InputTextModule } from 'primeng/inputtext';
 import { EditorModule } from "primeng/editor";
 import { ButtonModule } from "primeng/button";
+import { TooltipModule } from "primeng/tooltip";
+import { DialogModule } from "primeng/dialog";
 
 @NgModule({
   declarations: [
@@ -23,6 +26,7 @@ import { ButtonModule } from "primeng/button";
   imports: [
     BrowserModule,
     FormsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     TabViewModule,
@@ -30,7 +34,9 @@ import { ButtonModule } from "primeng/button";
     CardModule,
     InputTextModule,
     EditorModule,
-    ButtonModule
+    ButtonModule,
+    TooltipModule,
+    DialogModule
   ],
   providers: [
     Client,

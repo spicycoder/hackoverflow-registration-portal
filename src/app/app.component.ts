@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   ideas: Idea[];
   isUpdate = false;
   idea: Idea;
+  display: boolean = false;
 
   get enableButton() {
     let flag = false;
@@ -24,12 +25,21 @@ export class AppComponent implements OnInit {
       (this.member1 && this.member1.trim() !== '')) {
       flag = true;
     }
+
     return flag;
   }
   constructor(private client: Client) { }
 
   ngOnInit() {
     this.refreshData();
+  }
+
+  showDialog() {
+    this.display = true;
+  }
+
+  onHide() {
+    this.reset();
   }
 
   save() {
@@ -57,6 +67,8 @@ export class AppComponent implements OnInit {
     this.member2 = idea.member2;
     this.description = idea.description;
     this.isUpdate = true;
+
+    this.display = true;
   }
 
   update() {
@@ -69,12 +81,9 @@ export class AppComponent implements OnInit {
     });
 
     this.client.updateIdea(idea).subscribe(() => {
-      this.teamName = '';
-      this.member1 = '';
-      this.member2 = '';
-      this.description = '';
-      this.isUpdate = false;
+      this.reset();
       this.refreshData();
+      this.display = false;
     });
   }
 
