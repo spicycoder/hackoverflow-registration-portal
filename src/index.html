@@ -1,14 +1,31 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>HackOverflow</title>
+  <link rel="stylesheet" type="text/css" href="https://gitcdn.xyz/repo/pi0/clippyjs/master/assets/clippy.css">
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
+
 <body>
   <app-root></app-root>
+
+  <script src="https://unpkg.com/jquery@3.2.1"></script>
+  <script src="https://unpkg.com/clippyjs@latest"></script>
+  <script type="text/javascript">
+    clippy.load('Clippy', function (agent) {
+      agent.show();
+
+      setInterval(function () {
+        agent.animate();
+        agent.speak("Hurry! registration closes soon ...");
+      }, 30000)
+    });
+  </script>
 </body>
+
 </html>
