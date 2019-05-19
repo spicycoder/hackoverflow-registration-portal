@@ -7,62 +7,68 @@
     </span>
 </div>
 
-<div style="margin: 75px 0">
-
-    <p-dialog closeOnEscape="true" header="New idea" [(visible)]="display" (onHide)="onHide()" resizable="true" modal="true">
-        <input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName" style="margin: 4px 4px 12px 0px;"
-            pTooltip="Team name">
-        <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1" style="margin: 4px 4px 4px 0px;"
-            pTooltip="Member 1">
-        <input type="text" pInputText placeholder="Member 2" [(ngModel)]="member2" style="margin: 4px 4px 4px 0px;"
-            pTooltip="Member 2">
-        <p-editor [(ngModel)]="description" [style]="{'height':'240px'}"></p-editor>
-        <p-button *ngIf="!isUpdate" label="Save" [disabled]="!enableButton" (onClick)="save()" icon="pi pi-save"
-            styleClass="ui-button-raised ui-button-rounded ui-button-success" style="margin: 4px 4px 4px 0px;">
-        </p-button>
-        <p-button *ngIf="isUpdate" label="Update" [disabled]="!enableButton" (onClick)="update()" icon="pi pi-save"
-            styleClass="ui-button-raised ui-button-rounded ui-button-success" style="margin: 4px 4px 4px 0px;">
-        </p-button>
-        <p-button label="Reset" icon="pi pi-refresh" (onClick)="reset()"
-            styleClass="ui-button-raised ui-button-rounded ui-button-warning" style="margin: 4px 4px 4px 0px;">
-        </p-button>
-    </p-dialog>
-
-    <br />
-
-    <p-card header="Registered Ideas">
-        <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea"
-            class="ui-button-raised ui-button-rounded ui-button-info" style="margin: 20px 0;"></button>
-
-        <p-table [value]="ideas">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Team name</th>
-                    <th>Member 1</th>
-                    <th>Member 2</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-idea>
-                <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
-                    <td>
-                        <button type="button" (click)="updateDetails(idea)" pButton icon="pi pi-pencil"
-                            [label]="idea.teamName" class="ui-button-raised ui-button-rounded ui-button-secondary"
-                            pTooltip="Click to update" style="display: block"></button>
-                    </td>
-                    <!-- <td><span style="cursor: pointer; color:#A200FF; text-decoration: underline;" (click)="updateDetails(idea);"
-                            title="Click to update">{{idea.teamName}}</span></td> -->
-                    <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member1}}</span></td>
-                    <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member2}}</span></td>
-                </tr>
-                <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
-                    <td colspan="3">
-                        <div [innerHtml]="idea.description"></div>
-                    </td>
-                </tr>
-                <br />
-                <br />
-            </ng-template>
-        </p-table>
+<div style="margin: 75px 0;">
+    <p-card header="Members" class="ui-g-12 ui-md-6">
+        <p-chart type="doughnut" [data]="doughnutChart"></p-chart>
+    </p-card>
+    <p-card header="Date" class="ui-g-12 ui-md-6">
+        <p-chart type="bar" [data]="barChart"></p-chart>
     </p-card>
 </div>
+
+
+<p-dialog closeOnEscape="true" header="New idea" [(visible)]="display" (onHide)="onHide()" resizable="true" modal="true">
+    <input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName" style="margin: 4px 4px 12px 0px;"
+        pTooltip="Team name">
+    <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1" style="margin: 4px 4px 4px 0px;"
+        pTooltip="Member 1">
+    <input type="text" pInputText placeholder="Member 2" [(ngModel)]="member2" style="margin: 4px 4px 4px 0px;"
+        pTooltip="Member 2">
+    <p-editor [(ngModel)]="description" [style]="{'height':'240px'}"></p-editor>
+    <p-button *ngIf="!isUpdate" label="Save" [disabled]="!enableButton" (onClick)="save()" icon="pi pi-save"
+        styleClass="ui-button-raised ui-button-rounded ui-button-success" style="margin: 4px 4px 4px 0px;">
+    </p-button>
+    <p-button *ngIf="isUpdate" label="Update" [disabled]="!enableButton" (onClick)="update()" icon="pi pi-save"
+        styleClass="ui-button-raised ui-button-rounded ui-button-success" style="margin: 4px 4px 4px 0px;">
+    </p-button>
+    <p-button label="Reset" icon="pi pi-refresh" (onClick)="reset()"
+        styleClass="ui-button-raised ui-button-rounded ui-button-warning" style="margin: 4px 4px 4px 0px;">
+    </p-button>
+</p-dialog>
+
+<p-card header="{{ideaCount}} Ideas from {{membersCount}} participants" class="ui-g-12 ui-md-12">
+    <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea"
+        class="ui-button-raised ui-button-rounded ui-button-info" style="margin: 20px 0;"></button>
+
+    <p-table [value]="ideas">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Team name</th>
+                <th>Member 1</th>
+                <th>Member 2</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-idea>
+            <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                <td>
+                    <button type="button" (click)="updateDetails(idea)" pButton icon="pi pi-pencil"
+                        [label]="idea.teamName" class="ui-button-raised ui-button-rounded ui-button-secondary"
+                        pTooltip="Click to update" style="display: block"></button>
+                </td>
+                <!-- <td><span style="cursor: pointer; color:#A200FF; text-decoration: underline;" (click)="updateDetails(idea);"
+                        title="Click to update">{{idea.teamName}}</span></td> -->
+                <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member1}}</span></td>
+                <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member2}}</span></td>
+            </tr>
+            <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                <td colspan="3">
+                    <div [innerHtml]="idea.description"></div>
+                </td>
+            </tr>
+            
+            <br />
+            <br />
+        </ng-template>
+    </p-table>
+</p-card>
 <router-outlet></router-outlet>

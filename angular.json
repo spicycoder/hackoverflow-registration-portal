@@ -35,6 +35,7 @@
               "src/styles.scss"
             ],
             "scripts": [
+              "node_modules/chart.js/dist/Chart.js",
               "node_modules/quill/dist/quill.js"
             ]
           },
@@ -98,6 +99,7 @@
               "src/styles.scss"
             ],
             "scripts": [
+              "node_modules/chart.js/dist/Chart.js",
               "node_modules/quill/dist/quill.js"
             ],
             "assets": [

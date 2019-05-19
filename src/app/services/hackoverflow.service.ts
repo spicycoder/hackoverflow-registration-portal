@@ -241,6 +241,58 @@ export class Client {
         }
         return _observableOf<void>(<any>null);
     }
+
+    /**
+     * Chart data
+     * @return Success
+     */
+    getChartData(): Observable<ChartViewModel> {
+        let url_ = this.baseUrl + "/api/Ideas/chart";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetChartData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetChartData(<any>response_);
+                } catch (e) {
+                    return <Observable<ChartViewModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ChartViewModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetChartData(response: HttpResponseBase): Observable<ChartViewModel> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = resultData200 ? ChartViewModel.fromJS(resultData200) : new ChartViewModel();
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ChartViewModel>(<any>null);
+    }
 }
 
 /** The idea */
@@ -311,6 +363,188 @@ export interface IIdea {
     member2?: string | undefined;
     /** Created on */
     created?: Date | undefined;
+}
+
+/** Group data suitable to be displayed in a chart */
+export class ChartViewModel implements IChartViewModel {
+    /** Total number of participants */
+    memberCount?: number | undefined;
+    /** Total number of ideas */
+    ideaCount?: number | undefined;
+    /** Ideas by members */
+    byMembers?: IdeasByMembers[] | undefined;
+    /** Ideas by dates */
+    byDate?: IdeasByDate[] | undefined;
+
+    constructor(data?: IChartViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.memberCount = data["memberCount"];
+            this.ideaCount = data["ideaCount"];
+            if (data["byMembers"] && data["byMembers"].constructor === Array) {
+                this.byMembers = [] as any;
+                for (let item of data["byMembers"])
+                    this.byMembers!.push(IdeasByMembers.fromJS(item));
+            }
+            if (data["byDate"] && data["byDate"].constructor === Array) {
+                this.byDate = [] as any;
+                for (let item of data["byDate"])
+                    this.byDate!.push(IdeasByDate.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): ChartViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ChartViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["memberCount"] = this.memberCount;
+        data["ideaCount"] = this.ideaCount;
+        if (this.byMembers && this.byMembers.constructor === Array) {
+            data["byMembers"] = [];
+            for (let item of this.byMembers)
+                data["byMembers"].push(item.toJSON());
+        }
+        if (this.byDate && this.byDate.constructor === Array) {
+            data["byDate"] = [];
+            for (let item of this.byDate)
+                data["byDate"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+/** Group data suitable to be displayed in a chart */
+export interface IChartViewModel {
+    /** Total number of participants */
+    memberCount?: number | undefined;
+    /** Total number of ideas */
+    ideaCount?: number | undefined;
+    /** Ideas by members */
+    byMembers?: IdeasByMembers[] | undefined;
+    /** Ideas by dates */
+    byDate?: IdeasByDate[] | undefined;
+}
+
+/** Ideas - grouped by members */
+export class IdeasByMembers implements IIdeasByMembers {
+    /** Team member */
+    member?: string | undefined;
+    /** Team names */
+    teamNames?: string[] | undefined;
+
+    constructor(data?: IIdeasByMembers) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.member = data["member"];
+            if (data["teamNames"] && data["teamNames"].constructor === Array) {
+                this.teamNames = [] as any;
+                for (let item of data["teamNames"])
+                    this.teamNames!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): IdeasByMembers {
+        data = typeof data === 'object' ? data : {};
+        let result = new IdeasByMembers();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["member"] = this.member;
+        if (this.teamNames && this.teamNames.constructor === Array) {
+            data["teamNames"] = [];
+            for (let item of this.teamNames)
+                data["teamNames"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Ideas - grouped by members */
+export interface IIdeasByMembers {
+    /** Team member */
+    member?: string | undefined;
+    /** Team names */
+    teamNames?: string[] | undefined;
+}
+
+/** Ideas grouped by dates */
+export class IdeasByDate implements IIdeasByDate {
+    /** Created on */
+    created?: Date | undefined;
+    /** Team names */
+    teamNames?: string[] | undefined;
+
+    constructor(data?: IIdeasByDate) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(data?: any) {
+        if (data) {
+            this.created = data["created"] ? new Date(data["created"].toString()) : <any>undefined;
+            if (data["teamNames"] && data["teamNames"].constructor === Array) {
+                this.teamNames = [] as any;
+                for (let item of data["teamNames"])
+                    this.teamNames!.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): IdeasByDate {
+        data = typeof data === 'object' ? data : {};
+        let result = new IdeasByDate();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["created"] = this.created ? this.created.toISOString() : <any>undefined;
+        if (this.teamNames && this.teamNames.constructor === Array) {
+            data["teamNames"] = [];
+            for (let item of this.teamNames)
+                data["teamNames"].push(item);
+        }
+        return data; 
+    }
+}
+
+/** Ideas grouped by dates */
+export interface IIdeasByDate {
+    /** Created on */
+    created?: Date | undefined;
+    /** Team names */
+    teamNames?: string[] | undefined;
 }
 
 export class SwaggerException extends Error {

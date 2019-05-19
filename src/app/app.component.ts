@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Client, Idea } from './services/hackoverflow.service';
+import { Constants } from "./models/constants";
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,10 @@ export class AppComponent implements OnInit {
   isUpdate = false;
   idea: Idea;
   display: boolean = false;
+  barChart: any;
+  doughnutChart: any;
+  membersCount: number;
+  ideaCount: number;
 
   get enableButton() {
     let flag = false;
@@ -51,11 +56,7 @@ export class AppComponent implements OnInit {
     });
 
     this.client.createIdea(idea).subscribe(() => {
-      this.teamName = '';
-      this.member1 = '';
-      this.member2 = '';
-      this.description = '';
-
+      this.reset();
       this.refreshData();
     });
   }
@@ -98,6 +99,32 @@ export class AppComponent implements OnInit {
   refreshData() {
     this.client.getAllIdeas().subscribe(ideas => {
       this.ideas = ideas;
+    });
+
+    this.client.getChartData().subscribe(data => {
+      this.ideaCount = data.ideaCount;
+      this.membersCount = data.memberCount;
+
+      this.barChart = {
+        labels: data.byDate.map(x => x.created.toDateString()),
+        datasets: [
+          {
+            label: 'By Date',
+            backgroundColor: Constants.colors,
+            data: data.byDate.map(x => x.teamNames.length)
+          }
+        ]
+      };
+
+      this.doughnutChart = {
+        labels: data.byMembers.map(x => x.member),
+        datasets: [
+          {
+            data: data.byMembers.map(x => x.teamNames.length),
+            backgroundColor: Constants.colors
+          }
+        ]
+      };
     });
   }
 }

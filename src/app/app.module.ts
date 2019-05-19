@@ -10,6 +10,8 @@ import { AppComponent } from './app.component';
 import { Client, API_BASE_URL } from "./services/hackoverflow.service";
 import { environment } from 'src/environments/environment';
 
+import { ChartModule } from "primeng/chart";
+
 import { TabViewModule } from "primeng/tabview";
 import { TableModule } from "primeng/table";
 import { CardModule } from "primeng/card";
@@ -36,7 +38,8 @@ import { DialogModule } from "primeng/dialog";
     EditorModule,
     ButtonModule,
     TooltipModule,
-    DialogModule
+    DialogModule,
+    ChartModule
   ],
   providers: [
     Client,
