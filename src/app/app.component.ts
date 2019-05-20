@@ -14,6 +14,7 @@ export class AppComponent implements OnInit {
   description: string;
   member1: string;
   member2: string;
+  created: Date;
   id: string;
   ideas: Idea[];
   isUpdate = false;
@@ -52,7 +53,8 @@ export class AppComponent implements OnInit {
       teamName: this.teamName,
       member1: this.member1,
       member2: this.member2,
-      description: this.description
+      description: this.description,
+      created: this.created
     });
 
     this.client.createIdea(idea).subscribe(() => {
@@ -78,7 +80,8 @@ export class AppComponent implements OnInit {
       teamName: this.teamName,
       member1: this.member1,
       member2: this.member2,
-      description: this.description
+      description: this.description,
+      created: this.created
     });
 
     this.client.updateIdea(idea).subscribe(() => {
@@ -93,6 +96,7 @@ export class AppComponent implements OnInit {
     this.member1 = '';
     this.member2 = '';
     this.description = '';
+    this.created = new Date();
     this.isUpdate = false;
   }
 
