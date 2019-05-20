@@ -17,7 +17,15 @@
 </div>
 
 
-<p-dialog closeOnEscape="true" header="New idea" [(visible)]="display" (onHide)="onHide()" resizable="true" modal="true">
+<p-dialog
+    closeOnEscape="true"
+    header="New idea"
+    [(visible)]="display"
+    (onHide)="onHide()"
+    resizable="true"
+    maximizable="true"
+    draggable="true"
+    modal="true">
     <input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName" style="margin: 4px 4px 12px 0px;"
         pTooltip="Team name">
     <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1" style="margin: 4px 4px 4px 0px;"
