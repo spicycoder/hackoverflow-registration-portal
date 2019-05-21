@@ -9,10 +9,10 @@
 
 <div style="margin: 100px 0;">
     <p-card header="Members" class="ui-g-12 ui-md-6">
-        <p-chart type="doughnut" [data]="doughnutChart"></p-chart>
+        <p-chart type="doughnut" [options]="chartOptions" [data]="doughnutChart"></p-chart>
     </p-card>
     <p-card header="Date" class="ui-g-12 ui-md-6">
-        <p-chart type="bar" [data]="barChart"></p-chart>
+        <p-chart type="bar" [options]="chartOptions" [data]="barChart"></p-chart>
     </p-card>
 </div>
 

@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   display: boolean = false;
   barChart: any;
   doughnutChart: any;
+  chartOptions: any;
   membersCount: number;
   ideaCount: number;
 
@@ -38,6 +39,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.refreshData();
+    this.chartOptions = {
+      legend: {
+        display: false
+      }
+    }
   }
 
   showDialog() {
