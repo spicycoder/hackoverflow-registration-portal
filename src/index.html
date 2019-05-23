@@ -17,14 +17,12 @@
   <script src="https://unpkg.com/jquery@3.2.1"></script>
   <script src="https://unpkg.com/clippyjs@latest"></script>
   <script type="text/javascript">
-    clippy.load('Merlin', function (agent) {
+    clippy.load('F1', function (agent) {
       agent.show();
       agent.animate();
-      agent.speak("Last day to register your ideas ...");
 
       setInterval(function () {
         agent.animate();
-        agent.speak("Last day to register your ideas ...");
       }, 30000)
     });
   </script>

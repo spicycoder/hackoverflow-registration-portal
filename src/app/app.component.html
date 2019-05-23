@@ -39,13 +39,13 @@
     <p-button *ngIf="isUpdate" label="Update" [disabled]="!enableButton" (onClick)="update()" icon="pi pi-save"
         styleClass="ui-button-raised ui-button-rounded ui-button-success" style="margin: 4px 4px 4px 0px;">
     </p-button>
-    <p-button label="Reset" icon="pi pi-refresh" (onClick)="reset()"
+    <p-button label="Reset" icon="pi pi-refresh" (onClick)="reset()" disabled="true"
         styleClass="ui-button-raised ui-button-rounded ui-button-warning" style="margin: 4px 4px 4px 0px;">
     </p-button>
 </p-dialog>
 
 <p-card header="{{ideaCount}} Ideas from {{membersCount}} participants" class="ui-g-12 ui-md-12">
-    <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea"
+    <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea" disabled="true"
         class="ui-button-raised ui-button-rounded ui-button-info" style="margin: 20px 0;"></button>
 
     <p-table [value]="ideas">
