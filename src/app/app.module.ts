@@ -20,6 +20,7 @@ import { EditorModule } from "primeng/editor";
 import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 import { DialogModule } from "primeng/dialog";
+import { AccordionModule } from "primeng/accordion";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DialogModule } from "primeng/dialog";
     ButtonModule,
     TooltipModule,
     DialogModule,
+    AccordionModule,
     ChartModule
   ],
   providers: [

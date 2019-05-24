@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://hack-overflow.azurewebsites.net'
+  baseUrl: 'https://hackoverflow.azurewebsites.net'
 };
 
 /*

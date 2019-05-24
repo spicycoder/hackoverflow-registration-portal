@@ -1,31 +1,11 @@
 <div class="eol-page-header">
     <span class="page-header-left">
-        <h2>Digital Online</h2>
-    </span>
-    <span class="page-header-right">
-        <h2>{{title}}</h2>
+        <h2>Digital Online - {{title}}</h2>
     </span>
 </div>
 
-<div style="margin: 100px 0;">
-    <p-card header="Members" class="ui-g-12 ui-md-6">
-        <p-chart type="doughnut" [options]="chartOptions" [data]="doughnutChart"></p-chart>
-    </p-card>
-    <p-card header="Date" class="ui-g-12 ui-md-6">
-        <p-chart type="bar" [options]="chartOptions" [data]="barChart"></p-chart>
-    </p-card>
-</div>
-
-
-<p-dialog
-    closeOnEscape="true"
-    header="New idea"
-    [(visible)]="display"
-    (onHide)="onHide()"
-    resizable="true"
-    maximizable="true"
-    draggable="true"
-    modal="true">
+<p-dialog closeOnEscape="true" header="New idea" [(visible)]="display" (onHide)="onHide()" resizable="true"
+    maximizable="true" draggable="true" modal="true">
     <input type="text" pInputText placeholder="Team name" [(ngModel)]="teamName" style="margin: 4px 4px 12px 0px;"
         pTooltip="Team name">
     <input type="text" pInputText placeholder="Member 1" [(ngModel)]="member1" style="margin: 4px 4px 4px 0px;"
@@ -39,44 +19,61 @@
     <p-button *ngIf="isUpdate" label="Update" [disabled]="!enableButton" (onClick)="update()" icon="pi pi-save"
         styleClass="ui-button-raised ui-button-rounded ui-button-success" style="margin: 4px 4px 4px 0px;">
     </p-button>
-    <p-button label="Reset" icon="pi pi-refresh" (onClick)="reset()" disabled="true"
+    <p-button label="Reset" icon="pi pi-refresh" (onClick)="reset()" *ngIf="enableAdding"
         styleClass="ui-button-raised ui-button-rounded ui-button-warning" style="margin: 4px 4px 4px 0px;">
     </p-button>
 </p-dialog>
 
-<p-card header="{{ideaCount}} Ideas from {{membersCount}} participants" class="ui-g-12 ui-md-12">
-    <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea" disabled="true"
-        class="ui-button-raised ui-button-rounded ui-button-info" style="margin: 20px 0;"></button>
+<div style="margin: 100px 0;">
+    <p-card header="Dashboard" class="ui-g-12 ui-md-6">
+        <p-chart type="doughnut" [options]="chartOptions" [data]="doughnutChart"></p-chart>
+    </p-card>
+    <p-card header="Date" class="ui-g-12 ui-md-6">
+        <p-chart type="bar" [options]="chartOptions" [data]="barChart"></p-chart>
+    </p-card>
+    <p-card header="{{ideaCount}} Ideas from {{membersCount}} participants" class="ui-g-12 ui-md-12">
+        <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea" *ngIf="enableAdding"
+            class="ui-button-raised ui-button-rounded ui-button-info" style="margin: 20px 0;"></button>
 
-    <p-table [value]="ideas">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Team name</th>
-                <th>Member 1</th>
-                <th>Member 2</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-idea>
-            <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
-                <td>
-                    <button type="button" (click)="updateDetails(idea)" pButton icon="pi pi-pencil"
-                        [label]="idea.teamName" class="ui-button-raised ui-button-rounded ui-button-secondary"
-                        pTooltip="Click to update" style="display: block"></button>
-                </td>
-                <!-- <td><span style="cursor: pointer; color:#A200FF; text-decoration: underline;" (click)="updateDetails(idea);"
-                        title="Click to update">{{idea.teamName}}</span></td> -->
-                <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member1}}</span></td>
-                <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member2}}</span></td>
-            </tr>
-            <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
-                <td colspan="3">
-                    <div [innerHtml]="idea.description"></div>
-                </td>
-            </tr>
-            
-            <br />
-            <br />
-        </ng-template>
-    </p-table>
-</p-card>
+        <p-tabView>
+            <p-tabPanel header="Ideas">
+                <p-table [value]="ideas">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Team name</th>
+                            <th>Member 1</th>
+                            <th>Member 2</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-idea>
+                        <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                            <td>
+                                <button type="button" (click)="updateDetails(idea)" pButton icon="pi pi-pencil"
+                                    [label]="idea.teamName"
+                                    class="ui-button-raised ui-button-rounded ui-button-secondary"
+                                    pTooltip="Click to update" style="display: block"></button>
+                            </td>
+                            <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member1}}</span></td>
+                            <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member2}}</span></td>
+                        </tr>
+                        <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                            <td colspan="3">
+                                <div [innerHtml]="idea.description"></div>
+                            </td>
+                        </tr>
+
+                        <br />
+                        <br />
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+            <p-tabPanel header="Shortlisted">
+
+            </p-tabPanel>
+            <p-tabPanel header="Declined">
+
+            </p-tabPanel>
+        </p-tabView>
+    </p-card>
+</div>
 <router-outlet></router-outlet>

@@ -8,7 +8,7 @@ import { Constants } from "./models/constants";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'Hackathon - 2019';
+  title = '2019 Hackathon';
 
   teamName: string;
   description: string;
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   chartOptions: any;
   membersCount: number;
   ideaCount: number;
+  enableAdding: boolean = false;
 
   get enableButton() {
     let flag = false;
