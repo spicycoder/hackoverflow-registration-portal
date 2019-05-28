@@ -21,6 +21,9 @@ import { ButtonModule } from "primeng/button";
 import { TooltipModule } from "primeng/tooltip";
 import { DialogModule } from "primeng/dialog";
 import { AccordionModule } from "primeng/accordion";
+import { PaginatorModule } from 'primeng/paginator';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ProgressBarModule } from 'primeng/progressbar';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,10 @@ import { AccordionModule } from "primeng/accordion";
     TooltipModule,
     DialogModule,
     AccordionModule,
-    ChartModule
+    ChartModule,
+    PaginatorModule,
+    ProgressSpinnerModule,
+    ProgressBarModule
   ],
   providers: [
     Client,

@@ -26,6 +26,8 @@ export class AppComponent implements OnInit {
   membersCount: number;
   ideaCount: number;
   enableAdding: boolean = false;
+  loading: boolean = false;
+  loadingChart: boolean = false;
 
   get enableButton() {
     let flag = false;
@@ -108,13 +110,14 @@ export class AppComponent implements OnInit {
   }
 
   refreshData() {
-    this.client.getAllIdeas().subscribe(ideas => {
-      this.ideas = ideas;
-    });
+    this.loadingChart = true;
 
     this.client.getChartData().subscribe(data => {
+      this.loadingChart = false;
       this.ideaCount = data.ideaCount;
       this.membersCount = data.memberCount;
+
+      this.getIdeas(1, 10);
 
       this.barChart = {
         labels: data.byDate.map(x => x.created.toDateString()),
@@ -136,6 +139,19 @@ export class AppComponent implements OnInit {
           }
         ]
       };
+    });
+  }
+
+  paginate(event) {
+    this.getIdeas(event.page + 1, event.pageCount);
+  }
+
+  getIdeas(pageNumber: number, pageCount: number) {
+    this.loading = true;
+    
+    this.client.getIdeas(pageNumber, pageCount).subscribe(ideas => {
+      this.ideas = ideas;
+      this.loading = false;
     });
   }
 }

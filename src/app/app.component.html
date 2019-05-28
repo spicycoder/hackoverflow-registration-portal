@@ -25,17 +25,21 @@
 </p-dialog>
 
 <div style="margin: 100px 0;">
-    <p-card header="Dashboard" class="ui-g-12 ui-md-6">
-        <p-chart type="doughnut" [options]="chartOptions" [data]="doughnutChart"></p-chart>
+    <p-card header="Participants" class="ui-g-12 ui-md-6">
+        <p-progressBar *ngIf="loadingChart" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        <p-chart *ngIf="!loadingChart" type="doughnut" [options]="chartOptions" [data]="doughnutChart"></p-chart>
     </p-card>
     <p-card header="Date" class="ui-g-12 ui-md-6">
-        <p-chart type="bar" [options]="chartOptions" [data]="barChart"></p-chart>
+        <p-progressBar *ngIf="loadingChart" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        <p-chart *ngIf="!loadingChart" type="bar" [options]="chartOptions" [data]="barChart"></p-chart>
     </p-card>
     <p-card header="{{ideaCount}} Ideas from {{membersCount}} participants" class="ui-g-12 ui-md-12">
         <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea" *ngIf="enableAdding"
             class="ui-button-raised ui-button-rounded ui-button-info" style="margin: 20px 0;"></button>
 
-        <p-table [value]="ideas">
+        <p-paginator [rows]="10" [totalRecords]="ideaCount" (onPageChange)="paginate($event)"></p-paginator>
+        <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        <p-table [value]="ideas" *ngIf="!loading">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Team name</th>
