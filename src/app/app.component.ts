@@ -28,7 +28,7 @@ export class AppComponent implements OnInit {
   enableAdding: boolean = false;
   loading: boolean = false;
   loadingChart: boolean = false;
-
+  
   get enableButton() {
     let flag = false;
     if ((this.teamName && this.teamName.trim() !== '') &&
@@ -117,7 +117,7 @@ export class AppComponent implements OnInit {
       this.ideaCount = data.ideaCount;
       this.membersCount = data.memberCount;
 
-      this.getIdeas(1, 10);
+      this.getIdeas(1, 5);
 
       this.barChart = {
         labels: data.byDate.map(x => x.created.toDateString()),

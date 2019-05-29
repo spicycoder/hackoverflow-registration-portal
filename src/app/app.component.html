@@ -37,7 +37,7 @@
         <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea" *ngIf="enableAdding"
             class="ui-button-raised ui-button-rounded ui-button-info" style="margin: 20px 0;"></button>
 
-        <p-paginator [rows]="10" [totalRecords]="ideaCount" (onPageChange)="paginate($event)"></p-paginator>
+        <p-paginator [rows]="5" [totalRecords]="ideaCount" [rowsPerPageOptions]="[5,10,20]" (onPageChange)="paginate($event)"></p-paginator>
         <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
         <p-table [value]="ideas" *ngIf="!loading">
             <ng-template pTemplate="header">
