@@ -144,6 +144,62 @@ export class Client {
     }
 
     /**
+     * Get shortlisted ideas
+     * @return Success
+     */
+    getShortlistedIdeas(): Observable<Idea[]> {
+        let url_ = this.baseUrl + "/api/Ideas/shortlisted-ideas";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetShortlistedIdeas(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetShortlistedIdeas(<any>response_);
+                } catch (e) {
+                    return <Observable<Idea[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Idea[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetShortlistedIdeas(response: HttpResponseBase): Observable<Idea[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(Idea.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Idea[]>(<any>null);
+    }
+
+    /**
      * Get idea by ID
      * @param id (optional) Id of the idea
      * @return Success
@@ -371,6 +427,8 @@ export class Idea implements IIdea {
     member2?: string | undefined;
     /** Created on */
     created?: Date | undefined;
+    /** Shortlisted idea? */
+    shortlisted?: boolean | undefined;
 
     constructor(data?: IIdea) {
         if (data) {
@@ -389,6 +447,7 @@ export class Idea implements IIdea {
             this.member1 = data["member1"];
             this.member2 = data["member2"];
             this.created = data["created"] ? new Date(data["created"].toString()) : <any>undefined;
+            this.shortlisted = data["shortlisted"];
         }
     }
 
@@ -407,6 +466,7 @@ export class Idea implements IIdea {
         data["member1"] = this.member1;
         data["member2"] = this.member2;
         data["created"] = this.created ? this.created.toISOString() : <any>undefined;
+        data["shortlisted"] = this.shortlisted;
         return data; 
     }
 }
@@ -425,6 +485,8 @@ export interface IIdea {
     member2?: string | undefined;
     /** Created on */
     created?: Date | undefined;
+    /** Shortlisted idea? */
+    shortlisted?: boolean | undefined;
 }
 
 /** Group data suitable to be displayed in a chart */

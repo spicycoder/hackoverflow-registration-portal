@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   created: Date;
   id: string;
   ideas: Idea[];
+  shortlistedIdeas: Idea[];
   isUpdate = false;
   idea: Idea;
   display: boolean = false;
@@ -117,7 +118,12 @@ export class AppComponent implements OnInit {
       this.ideaCount = data.ideaCount;
       this.membersCount = data.memberCount;
 
-      this.getIdeas(1, 5);
+      this.loading = true;
+      this.client.getAllIdeas().subscribe(ideas => {
+        this.ideas = ideas.filter(x => !x.shortlisted);
+        this.shortlistedIdeas = ideas.filter(x => x.shortlisted);
+        this.loading = false;
+      });
 
       this.barChart = {
         labels: data.byDate.map(x => x.created.toDateString()),
@@ -139,19 +145,6 @@ export class AppComponent implements OnInit {
           }
         ]
       };
-    });
-  }
-
-  paginate(event) {
-    this.getIdeas(event.page + 1, event.rows);
-  }
-
-  getIdeas(pageNumber: number, pageCount: number) {
-    this.loading = true;
-    
-    this.client.getIdeas(pageNumber, pageCount).subscribe(ideas => {
-      this.ideas = ideas;
-      this.loading = false;
     });
   }
 }

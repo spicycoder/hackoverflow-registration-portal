@@ -37,36 +37,72 @@
         <button type="button" (click)="showDialog()" pButton icon="pi pi-plus" label="Add new idea" *ngIf="enableAdding"
             class="ui-button-raised ui-button-rounded ui-button-info" style="margin: 20px 0;"></button>
 
-        <p-paginator [rows]="5" [totalRecords]="ideaCount" [rowsPerPageOptions]="[5,10,20]" (onPageChange)="paginate($event)"></p-paginator>
-        <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
-        <p-table [value]="ideas" *ngIf="!loading">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Team name</th>
-                    <th>Member 1</th>
-                    <th>Member 2</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-idea>
-                <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
-                    <td>
-                        <button type="button" (click)="updateDetails(idea)" pButton icon="pi pi-pencil"
-                            [label]="idea.teamName" class="ui-button-raised ui-button-rounded ui-button-secondary"
-                            pTooltip="Click to update" style="display: block"></button>
-                    </td>
-                    <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member1}}</span></td>
-                    <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member2}}</span></td>
-                </tr>
-                <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
-                    <td colspan="3">
-                        <div [innerHtml]="idea.description"></div>
-                    </td>
-                </tr>
+        <p-tabView>
+            <p-tabPanel header="Shortlisted Ideas">
+                <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+                <p-table [value]="shortlistedIdeas" *ngIf="!loading">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Team name</th>
+                            <th>Member 1</th>
+                            <th>Member 2</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-idea>
+                        <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                            <td>
+                                <button type="button" (click)="updateDetails(idea)" pButton icon="pi pi-pencil"
+                                    [label]="idea.teamName"
+                                    class="ui-button-raised ui-button-rounded ui-button-secondary"
+                                    pTooltip="Click to update" style="display: block"></button>
+                            </td>
+                            <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member1}}</span></td>
+                            <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member2}}</span></td>
+                        </tr>
+                        <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                            <td colspan="3">
+                                <div [innerHtml]="idea.description"></div>
+                            </td>
+                        </tr>
 
-                <br />
-                <br />
-            </ng-template>
-        </p-table>
+                        <br />
+                        <br />
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+            <p-tabPanel header="Other great ideas">
+                <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+                <p-table [value]="ideas" *ngIf="!loading">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Team name</th>
+                            <th>Member 1</th>
+                            <th>Member 2</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-idea>
+                        <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                            <td>
+                                <button type="button" (click)="updateDetails(idea)" pButton icon="pi pi-pencil"
+                                    [label]="idea.teamName"
+                                    class="ui-button-raised ui-button-rounded ui-button-secondary"
+                                    pTooltip="Click to update" style="display: block"></button>
+                            </td>
+                            <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member1}}</span></td>
+                            <td><span style="color: #1BA1E2; font-weight: bold;">{{idea.member2}}</span></td>
+                        </tr>
+                        <tr *ngIf="idea.teamName!=='' && idea.teamName !== null">
+                            <td colspan="3">
+                                <div [innerHtml]="idea.description"></div>
+                            </td>
+                        </tr>
+
+                        <br />
+                        <br />
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+        </p-tabView>
     </p-card>
 </div>
 <router-outlet></router-outlet>
