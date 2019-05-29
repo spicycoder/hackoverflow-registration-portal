@@ -143,7 +143,7 @@ export class AppComponent implements OnInit {
   }
 
   paginate(event) {
-    this.getIdeas(event.page + 1, event.pageCount);
+    this.getIdeas(event.page + 1, event.rows);
   }
 
   getIdeas(pageNumber: number, pageCount: number) {
