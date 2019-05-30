@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   member1: string;
   member2: string;
   created: Date;
+  shortlisted: boolean;
   id: string;
   ideas: Idea[];
   shortlistedIdeas: Idea[];
@@ -64,7 +65,8 @@ export class AppComponent implements OnInit {
       member1: this.member1,
       member2: this.member2,
       description: this.description,
-      created: this.created
+      created: this.created,
+      shortlisted: this.shortlisted,
     });
 
     this.client.createIdea(idea).subscribe(() => {
@@ -79,6 +81,7 @@ export class AppComponent implements OnInit {
     this.member1 = idea.member1;
     this.member2 = idea.member2;
     this.description = idea.description;
+    this.shortlisted = idea.shortlisted;
     this.isUpdate = true;
 
     this.display = true;
@@ -91,7 +94,8 @@ export class AppComponent implements OnInit {
       member1: this.member1,
       member2: this.member2,
       description: this.description,
-      created: this.created
+      created: this.created,
+      shortlisted: this.shortlisted
     });
 
     this.client.updateIdea(idea).subscribe(() => {
@@ -107,6 +111,7 @@ export class AppComponent implements OnInit {
     this.member2 = '';
     this.description = '';
     this.created = new Date();
+    this.shortlisted = false;
     this.isUpdate = false;
   }
 
