@@ -24,6 +24,7 @@ import { AccordionModule } from "primeng/accordion";
 import { PaginatorModule } from 'primeng/paginator';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ProgressBarModule } from 'primeng/progressbar';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ProgressBarModule } from 'primeng/progressbar';
     ChartModule,
     PaginatorModule,
     ProgressSpinnerModule,
-    ProgressBarModule
+    ProgressBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     Client,

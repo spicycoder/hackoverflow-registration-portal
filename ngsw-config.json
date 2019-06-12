@@ -1,0 +1,69 @@
+{
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/*.css",
+          "/*.js"
+        ]
+      }
+    }, {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**",
+          "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
+        ]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "all-ideas",
+      "urls": ["https://hackoverflow.azurewebsites.net/api/Ideas/all"],
+      "cacheConfig": {
+        "maxSize": 250,
+        "maxAge": "30d",
+        "timeout": "3s",
+        "strategy": "performance"
+      }
+    },
+    {
+      "name": "shortlisted-ideas",
+      "urls": ["https://hackoverflow.azurewebsites.net/api/Ideas/shortlisted-ideas"],
+      "cacheConfig": {
+        "maxSize": 250,
+        "maxAge": "30d",
+        "timeout": "3s",
+        "strategy": "performance"
+      }
+    },
+    {
+      "name": "charts",
+      "urls": ["https://hackoverflow.azurewebsites.net/api/Ideas/chart"],
+      "cacheConfig": {
+        "maxSize": 250,
+        "maxAge": "30d",
+        "timeout": "3s",
+        "strategy": "performance"
+      }
+    },
+    {
+      "name": "idea",
+      "urls": ["https://hackoverflow.azurewebsites.net/api/Ideas/idea?id=*"],
+      "cacheConfig": {
+        "maxSize": 250,
+        "maxAge": "3d",
+        "timeout": "3s",
+        "strategy": "freshness"
+      }
+    }
+  ]
+}
