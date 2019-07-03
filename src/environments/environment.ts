@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://hackoverflow.azurewebsites.net'
+  baseUrl: 'https://hackoverflow-registration.herokuapp.com'
 };
 
 /*
